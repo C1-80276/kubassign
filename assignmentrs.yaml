@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myhttpd-replicaset
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myhttpd
+  template:
+    metadata:
+      labels:
+        app: myhttpd
+    spec:
+      containers:
+      - name: myhttpd-container
+        image: chiraag77/chiraag_repo:myhttpd
+        ports:
+        - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: myhttpd-service
+spec:
+  selector:
+    app: myhttpd
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: NodePort
+
